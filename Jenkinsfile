@@ -5,18 +5,20 @@ pipeline {
         stage("load lib") {
             agent { label 'master' }
             steps {
-                checkout scm
-
                 script {
                     sh '''
-                        cd ./library && \
+                        cd library && \
                         (rm -rf .git || true) && \
+                        git config --global user.email "you@example.com" && \
+                        git config --global user.name "Your Name" && \
                         git init && \
                         git add --all && \
                         git commit -m init
                     '''
 
-                    def repoPath = sh(returnStdout: true, script: 'pwd').trim() + "/$libraryPath"
+                    def repoPath = sh(returnStdout: true, script: 'pwd').trim() + "/library"
+
+                    echo "REPO PATH: $repoPath"
 
                     library identifier: 'local-lib@master',
                             retriever: modernSCM([$class: 'GitSCMSource', remote: "$repoPath"]),
