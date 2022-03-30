@@ -1,7 +1,7 @@
 pipeline {
-	agent any
+    agent any
 
-	stages {
+    stages {
         stage("load lib") {
             agent { label 'master' }
             steps {
@@ -30,11 +30,11 @@ pipeline {
             }
         }
 
-		stage("Test") {
+        stage("Test") {
             agent { label 'docker' }
-			steps {
-				localTest()
-			}
-		}
-	}
+            steps {
+                localTest()
+            }
+        }
+    }
 }
